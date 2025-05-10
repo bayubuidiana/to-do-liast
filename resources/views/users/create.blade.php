@@ -31,8 +31,12 @@
                 <label for="">Password</label>
                 <input type="password" name="password" class="form-control
                     @error('password') is-invalid @enderror"
-                    value="{{ old('password') ? old('password') : '' }}"
-                >
+                    value="{{ old('password') ? old('password') : '' }}">
+                <div class="mb-3">
+                                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" placeholder="Konfirmasi password" required>
+                            </div>
                 @error ('password')
                     <div class="invalid-feedback">
                         {{ $message }}

@@ -42,8 +42,8 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <span class="badge {{ $user->cars->count() ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $user->cars->count() ? 'Aktif' : 'Tidak Aktif' }}
+                                <span class="badge {{ $user->todos->count() ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $user->todos>count() ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>
                             <td>

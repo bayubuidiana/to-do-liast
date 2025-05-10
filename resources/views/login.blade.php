@@ -7,20 +7,27 @@
                         <h3 class="text-center fw-bold" style="color: #d35400;">Login</h3>
                         <p class="text-center">Silakan masukkan akun Anda untuk masuk</p>
 
-                        <form action="/" method="GET">
+                        <form action="{{ route('login') }}" method="POST" novalidate>
+
                             @csrf
                             <!-- Input Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Masukkan email" required>
+                                    value="{{ old('email') }}" placeholder="Masukkan email">
+                                @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Input Password -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Masukkan password" required>
+                                    placeholder="Masukkan password">
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Remember Me -->
