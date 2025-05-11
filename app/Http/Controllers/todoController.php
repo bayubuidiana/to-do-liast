@@ -1,29 +1,43 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TodoController extends Controller
 {
-    // Menampilkan daftar Todo
+    /**
+     * DAFTAR TODO.
+     */
     public function index()
     {
         $todos = Todo::latest()->paginate(10);
         return view('todo.index', compact('todos'));
     }
 
-    // Menampilkan form tambah Todo
+    /**
+     * MENAMPILKAN FORM TAMBAH TODO.
+     */
     public function create()
     {
         return view('todo.create');
     }
 
-    // Menyimpan Todo baru
+    /**
+     * MENYIMPAN TODO BARU.
+     */
     public function store(Request $request)
     {
+      
+
         $validated = $request->validate([
+            
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'is_completed' => 'nullable|boolean',
         ]);
 
         Todo::create($validated);
@@ -31,13 +45,26 @@ class TodoController extends Controller
         return redirect()->route('todo.index')->with('success', 'Todo berhasil ditambahkan!');
     }
 
-    // Menampilkan form edit Todo
+// complate
+    public function toggle(Todo $todo)
+{
+    $todo->is_completed = !$todo->is_completed;  // Toggle nilai is_completed
+    $todo->save();
+
+    return redirect()->route('todo.index')->with('success', 'Status todo telah diperbarui!');
+}
+
+    /**
+     * MENAMPILKAN FORM EDIT TODO.
+     */
     public function edit(Todo $todo)
     {
         return view('todo.edit', compact('todo'));
     }
 
-    // Mengupdate Todo
+    /**
+     * UPDATE TODO.
+     */
     public function update(Request $request, Todo $todo)
     {
         $validated = $request->validate([
@@ -50,7 +77,9 @@ class TodoController extends Controller
         return redirect()->route('todo.index')->with('success', 'Todo berhasil diupdate!');
     }
 
-    // Menghapus Todo
+    /**
+     * HAPUS TODO.
+     */
     public function destroy(Todo $todo)
     {
         $todo->delete();

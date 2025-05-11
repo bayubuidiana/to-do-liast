@@ -47,6 +47,13 @@ Route::get('/todo', [TodoController::class, 'todo']);
 
 
 // ========================
+// complate Routes
+// ========================
+Route::patch('/todo/{todo}/toggle', [TodoController::class, 'toggle'])->name('todo.toggle');
+
+
+
+// ========================
 // Resource Routes
 // ========================
 
