@@ -42,8 +42,9 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <span class="badge {{ $user->todos->count() ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $user->todos>count() ? 'Aktif' : 'Tidak Aktif' }}
+                                @php $isActive = $user->todos->count() > 0; @endphp
+                                <span class="badge {{ $isActive ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $isActive ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>
                             <td>

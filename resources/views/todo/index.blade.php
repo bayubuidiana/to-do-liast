@@ -1,6 +1,10 @@
 <x-layout>
-    <div class="container py-5">
+    <div class="container py-2">
+        <div class="text-center mt-5">
+            <a href="{{ route('todo.create') }}" class="btn btn-orange px-4 py-2 fw-bold">+ Tambah Todo Baru</a>
+        </div>
         <h2 class="text-center fw-bold mb-4" style="color: #d35400;">Daftar Todo</h2>
+         
 
         <div class="row g-4">
             @foreach ($todos as $todo)
@@ -40,12 +44,17 @@
                                     </button>
                                 </form>
 
-                                <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" class="d-inline">
+                                <a href="{{ route('todo.edit', $todo->id) }}"
+                                    class="btn btn-sm btn-outline-primary">Edit</a>
+                                <form id="delete-form-{{ $todo->id }}"
+                                    action="{{ route('todo.destroy', $todo->id) }}" method="POST"
+                                    style="display: none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                 </form>
+
+                                <button onclick="confirmDeleteTodo({{ $todo->id }})"
+                                    class="btn btn-sm btn-outline-danger">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -53,12 +62,8 @@
             @endforeach
         </div>
 
-        <div class="text-center mt-5">
-            {{ $todos->links() }}
-        </div>
-
-        <div class="text-center mt-5">
-            <a href="{{ route('todo.create') }}" class="btn btn-orange px-4 py-2 fw-bold">+ Tambah Todo Baru</a>
+        <div class="d-flex flex-column align-items-center mt-4">
+                {{ $todos->links('pagination::bootstrap-5') }}
         </div>
     </div>
 </x-layout>

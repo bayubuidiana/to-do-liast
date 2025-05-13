@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+
 
 class TodoController extends Controller
 {
@@ -13,7 +16,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = Todo::latest()->paginate(10);
+        $todos = Todo::latest()->paginate(12);
         return view('todo.index', compact('todos'));
     }
 
@@ -38,17 +41,20 @@ class TodoController extends Controller
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
             'is_completed' => 'nullable|boolean',
+            
         ]);
 
+        $validated['user_id'] = auth()->user()->id;
         Todo::create($validated);
 
-        return redirect()->route('todo.index')->with('success', 'Todo berhasil ditambahkan!');
+        Alert::toast('Berhasil membuat task baru!', 'success')->autoClose(5000);
+        return redirect()->route('todo.index');
     }
 
 // complate
     public function toggle(Todo $todo)
 {
-    $todo->is_completed = !$todo->is_completed;  // Toggle nilai is_completed
+    $todo->is_completed = !$todo->is_completed;  
     $todo->save();
 
     return redirect()->route('todo.index')->with('success', 'Status todo telah diperbarui!');
@@ -70,11 +76,14 @@ class TodoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'is_completed' => 'nullable|boolean',
         ]);
 
         $todo->update($validated);
 
-        return redirect()->route('todo.index')->with('success', 'Todo berhasil diupdate!');
+        Alert::toast('Berhasil edit task!', 'success')->autoClose(5000);
+        return redirect()->route('todo.index');
     }
 
     /**

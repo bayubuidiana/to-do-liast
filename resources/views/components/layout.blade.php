@@ -140,6 +140,20 @@
                 }
             });
         }
+        function confirmDeleteTodo(id) {
+        Swal.fire({
+            title: 'Delete Task!',
+            text: "Are you sure you want to delete this task?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
     </script>
 
     @include('sweetalert::alert')

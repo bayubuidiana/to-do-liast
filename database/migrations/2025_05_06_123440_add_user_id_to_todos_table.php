@@ -9,14 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('todos', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable(); // hanya menambah kolom saja
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
-
+    
     public function down(): void
     {
         Schema::table('todos', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
             $table->dropColumn('user_id');
         });
     }
-};
+};  
