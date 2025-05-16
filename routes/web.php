@@ -56,6 +56,21 @@ Route::patch('/todo/{todo}/toggle', [TodoController::class, 'toggle'])->name('to
 // ========================
 // Resource Routes
 // ========================
+use App\Http\Controllers\AdminUserController;
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/create-user', [UserController::class, 'create'])->name('admin.user.create');
+});
+
+
+
+
+
+
+
+// ========================
+// Resource Routes
+// ========================
 
 // Hanya bisa diakses oleh yang sudah login
 Route::middleware(['auth'])->group(function () {

@@ -47,14 +47,18 @@
                                     {{ $isActive ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>
-                            <td>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                    class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                            <td class="d-flex ">
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
+                                <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
                                 </form>
+                                
+                                <button class="btn btn-sm btn-danger" onclick="confirmDeleteUser({{ $user->id }})">
+                                    Delete
+                                </button>
+                                
+                                
                             </td>
                         </tr>
                     @empty

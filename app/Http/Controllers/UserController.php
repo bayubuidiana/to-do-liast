@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -26,20 +27,30 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'Nama harus diisi!',
+            'email.required' => 'Email harus diisi!',
+            'email.email' => 'Format email harus benar!',
+            'email.unique' => 'Email sudah terdaftar!',
+            'password.required' => 'Password harus diisi!',
+            'password.confirmed' => 'Konfirmasi password tidak cocok!',
+            'password.min' => 'Password minimal 8 karakter!',
         ]);
 
         // Simpan ke database
         User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            
         ]);
-
-        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan!');
+        
+        Alert::toast('User berhasil ditambahkan!', 'success')->autoClose(5000);
+        return redirect('/users');
     }
 
     public function edit($id)
@@ -51,15 +62,26 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+    
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6'
         ]);
+    
+        $data = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ];
+    
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
+        }
 
-        $user->update($validated);
+        $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil diupdate!');
+        Alert::toast('User Berhasil di edit!', 'success')->autoClose(5000);
+        return redirect('/users');
     }
 
     public function destroy($id)
@@ -67,6 +89,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus!');
+        Alert::toast('User berhasil dihapus!', 'success')->autoClose(5000);
+        return redirect('/users');
     }
 }

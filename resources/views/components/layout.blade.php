@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Bundle with Popper (wajib untuk dropdown) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         /* Your custom styles */
@@ -84,17 +84,18 @@
             <h3 class="text-orange mb-0 fw-bold">TO-DO LIST</h3>
             <div class="d-flex gap-3 align-items-center">
                 {{-- for client --}}
-                <a href="/" class="text-orange h5 text-decoration-none fw-bold">HOME</a>
+
                 @guest
                     <a href="/registrasi" class="btn btn-orange fw-bold px-3">DAFTAR</a>
                     <a href="/login" class="btn btn-outline-orange fw-bold px-3">LOGIN</a>
                 @endguest
                 @auth
+                    <a href="/home" class="text-orange h5 text-decoration-none fw-bold">HOME</a>
                     <a href="/todo" class="text-orange h5 text-decoration-none fw-bold">TO-DO</a>
                     <a href="/users" class="text-orange h5 text-decoration-none fw-bold">USER</a>
                     <div class="dropdown">
-                        <button class="btn btn-outline-orange fw-bold px-3 dropdown-toggle" type="button" id="dropdownMenu2"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-orange fw-bold px-3 dropdown-toggle" type="button"
+                            id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -140,20 +141,36 @@
                 }
             });
         }
+
         function confirmDeleteTodo(id) {
-        Swal.fire({
-            title: 'Delete Task!',
-            text: "Are you sure you want to delete this task?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + id).submit();
-            }
-        });
-    }
+            Swal.fire({
+                title: 'Delete Task!',
+                text: "Are you sure you want to delete this task?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+
+        function confirmDeleteUser(id) {
+            Swal.fire({
+                title: 'Delete User!',
+                text: "Are you sure you want to delete this User?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
     </script>
 
     @include('sweetalert::alert')
