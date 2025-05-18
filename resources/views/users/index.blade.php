@@ -47,18 +47,22 @@
                                     {{ $isActive ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>
-                            <td class="d-flex ">
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
-                                <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                
-                                <button class="btn btn-sm btn-danger" onclick="confirmDeleteUser({{ $user->id }})">
-                                    Delete
-                                </button>
-                                
-                                
+                            @auth
+                                <td class="d-flex ">
+                                    <a href="{{ route('users.edit', $user->id) }}"
+                                        class="btn btn-sm btn-warning me-2">Edit</a>
+                                    <form id="delete-form-{{ $user->id }}"
+                                        action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                        style="display:none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
+                                    <button class="btn btn-sm btn-danger" onclick="confirmDeleteUser({{ $user->id }})">
+                                        Delete
+                                    </button>
+                            @endauth
+
                             </td>
                         </tr>
                     @empty
@@ -71,8 +75,8 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="d-flex justify-content-center mt-3">
-            {{ $users->withQueryString()->links() }}
-        </div>
+        <div class="d-flex justify-content-center mt-3"">
+            {{ $users->links('pagination::bootstrap-5') }}
+    </div>
     </div>
 </x-layout>

@@ -81,11 +81,15 @@
     {{-- navbar --}}
     <div class="navbar-custom py-3 shadow-sm">
         <div class="container d-flex justify-content-between align-items-center">
-            <h3 class="text-orange mb-0 fw-bold">TO-DO LIST</h3>
+            <a href="/" class="text-decoration-none">
+                <h3 class="text-orange mb-0 fw-bold">TO-DO LIST</h3>
+            </a>
             <div class="d-flex gap-3 align-items-center">
                 {{-- for client --}}
 
                 @guest
+                    <a href="/todo" class="text-orange h5 text-decoration-none fw-bold">TO-DO</a>
+                    <a href="/users" class="text-orange h5 text-decoration-none fw-bold">USER</a>
                     <a href="/registrasi" class="btn btn-orange fw-bold px-3">DAFTAR</a>
                     <a href="/login" class="btn btn-outline-orange fw-bold px-3">LOGIN</a>
                 @endguest

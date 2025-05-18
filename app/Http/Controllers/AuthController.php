@@ -53,7 +53,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             Alert::success('Selamat!', 'Anda telah berhasil masuk ke sistem!')->autoClose(5000);
-            return redirect()->intended('home');
+            return redirect()->intended('/home');
         }
 
         Alert::toast('Email atau password yang Anda masukkan salah!', 'error')->autoClose(5000);
